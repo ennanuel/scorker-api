@@ -1,20 +1,16 @@
 const axios = require("axios")
-const filterResult = require("../filter")
 const refineResult = require("../refineResult")
 
 const getAllMatches = async (apiURL, headers, filter) => {
-    const regex = new RegExp(/(in_play|timed|finished)/i.test(filter) ? filter : '[a-z]', 'i')
-    let data
+    const regex = new RegExp(/(in_play|timed|finished)/i.test(filter) ? filter.toLowerCase() === 'in_play' ? 'in_play|paused' : filter : '[a-z]', 'i')
 
     try {
-        data =  await axios.get(apiURL + '/matches', { headers })
+        const response =  await axios.get(apiURL + '/matches', { headers })
+        const result = response.data.matches.map( elem => refineResult(elem) )
+        return result.filter( elem => regex.test(elem.status) )
     } catch (error) {
         throw error
     }
-
-    const result = data.data.matches.map( elem => refineResult(elem) )
-    
-    return result.filter( elem => regex.test(elem.status) )
 }
 
 module.exports = getAllMatches

@@ -1,142 +1,46 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema
 
 const matchSchema = new mongoose.Schema(
     {
-        area: {
-            id: {
-                type: Number
-            },
-            name: {
-                type: String
-            },
-            code: {
-                type: String
-            },
-            flag: {
-                type: String
-            }
-        },
-        competition: {
-            id: {
-                type: Number
-            },
-            name: {
-                type: String
-            },
-            code: {
-                type: String
-            },
-            type: {
-                type: String
-            },
-            emblem: {
-                type: String
-            }
-        },
-        season: {
-            id: {
-                type: Number
-            },
-            startDate: {
-                type: String
-            },
-            endDate: {
-                type: String
-            },
-            currentMatchDay: {
-                type: String
-            },
-            winner: {
-                type: String,
-                default: ''
-            }
-        },
-        id: {
-            type: Number,
-        },
-        utcDate: {
-            type: String
-        },
-        status: {
-            type: String
-        },
-        matchDay: {
-            type: Number
-        },
-        dtage: {
-            type: String
-        },
-        group: {
-            type: String
-        },
-        lastUpdated: {
-            type: String
-        },
+        id: { type: Number, required: true, unique: true },
+        utcDate: { type: Date, required: true },
+        status: { type: String, required: true },
+        matchday: { type: Number, default: null },
+        stage: { type: String, },
+        group: { type: String, default: '' },
+        lastUpdated: { type: Date, required: true },
         homeTeam: {
-            id: {
-                type: Number,
-            },
-            name: {
-                type: String
-            },
-            shortName: {
-                type: String
-            },
-            tla: {
-                type: String
-            },
-            crest: {
-                type: String
-            }
+            id: { type: Number, },
+            name: { type: String },
+            shortName: { type: String },
+            tla: { type: String },
+            crest: { type: String },
         },
-        "awayTeam": {
-            id: {
-                type: Number,
-            },
-            name: {
-                type: String
-            },
-            shortName: {
-                type: String
-            },
-            tla: {
-                type: String
-            },
-            crest: {
-                type: String
-            }
+        awayTeam: {
+            id: { type: Number },
+            name: { type: String },
+            shortName: { type: String },
+            tla: { type: String },
+            crest: { type: String },
         },
         score: {
-            winner: {
-                type: String,
-                default: null
-            },
-            duration: {
-                type: String
-            },
+            winner: { type: String },
+            duration: { type: String },
             fullTime: {
-                home: {
-                    type: Number,
-                    default: 0
-                },
-                away: {
-                    type: Number,
-                    default: 0
-                }
+                home: { type: Number },
+                away: { type: Number }
             },
             halfTime: {
-                home: {
-                    type: Number,
-                    default: 0
-                },
-                away: {
-                    type: Number,
-                    default: 0
-                }
+                home: { type: Number },
+                away: { type: Number }
             }
         },
-        referees: {
-            type: Array
+        referees: { type: Array },
+        head2head: { 
+            type: Schema.Types.ObjectId,
+            ref: 'H2H',
+            default: null
         }
     },
     { timestamps: true }

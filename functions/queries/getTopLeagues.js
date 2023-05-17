@@ -1,4 +1,6 @@
 const axios = require("axios")
+const Match = require('../../models/Match')
+const Competition = require("../../models/Competition")
 const { headers, compRanking } = require('../../data')
 const { rearrangeComps } = require("../rearrange")
 
@@ -31,6 +33,5 @@ const getTopLeagues = async () => {
 
     return sortedLeagues;
 }
-
 
 module.exports = getTopLeagues

@@ -1,46 +1,52 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema
 
-const H2HSchema = new mongoose.Schema({
-    filters: {
-        limit: {
-            type: Number
+const H2HSchema = new mongoose.Schema(
+    {
+        resultSet: {
+            count: { type: Number },
+            competitions: { type: String },
+            first: { type: Date },
+            last: { type: Date }
         },
-        permission: {
-            type: String
-        }
+        aggregates: {
+            numberOfMatches: { type: Number },
+            totalGoals: { type: Number },
+            homeTeam: {
+                id: { type: Number },
+                name: { type: String },
+                wins: { type: Number },
+                draws: { type: Number },
+                losses: { type: Number },
+                previousMatches: [
+                    {
+                        type: Schema.Types.ObjectId,
+                        ref: 'Match',
+                    }
+                ]
+            },
+            awayTeam: {
+                id: { type: Number },
+                name: { type: String },
+                wins: { type: Number },
+                draws: { type: Number },
+                losses: { type: Number },
+                previousMatches: [
+                    {
+                        type: Schema.Types.ObjectId,
+                        ref: 'Match',
+                    }
+                ]
+            }
+        },
+        matches: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Match'
+            }
+        ]
     },
-    resultSet: {
-        count: 2,
-        competitions: {
-            type: String
-        },
-        first: {
-            type: String
-        },
-        last: {
-            type: String
-        }
-    },
-    aggregates: {
-        numberMatches: {
-            type: Number
-        },
-        totalGoals: {
-            type: Number
-        },
-        homeTeam: {
-            type: Object
-        },
-        awayTeam: {
-            type: Object
-        }
-    },
-    matches: {
-        type: Array,
-        required: true
-    }
-},
-    { timestamps: true }
+    {timestamps: true}
 )
 
 module.exports = mongoose.model('H2H', H2HSchema)
